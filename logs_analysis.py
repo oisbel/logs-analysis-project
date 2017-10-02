@@ -18,7 +18,8 @@ def popular_3_articles():
         articles = cursor.fetchall()
         database.close()
         return articles
-    except Exception:
+    except Exception as e:
+        print(e)
         return []
 
 
@@ -35,7 +36,8 @@ def popular_article_authors():
         articles = cursor.fetchall()
         database.close()
         return articles
-    except Exception:
+    except Exception as e:
+        print(e)
         return []
 
 
@@ -44,7 +46,7 @@ def lead_to_errors():
     try:
         database = psycopg2.connect(dbname=DBNAME)
         cursor = database.cursor()
-        cursor.execute(""" select day, percent from
+        cursor.execute(""" select to_char(day,'FMMonth FMDD, YYYY'), percent from
                            (select requests.day,
                            round(f_request*100/t_request::numeric,2) as percent
                            from requests,fails
@@ -53,8 +55,10 @@ def lead_to_errors():
         articles = cursor.fetchall()
         database.close()
         return articles
-    except Exception:
+    except Exception as e:
+        print(e)
         return []
+
 
 print("\n\tInternal Reporting Tool\n")
 # The most popular three articles
