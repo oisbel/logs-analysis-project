@@ -55,7 +55,7 @@ This view is a result of a join between **articles** and a **select**. The *sele
             from articles, (select path, count(*) as views
             from log where status='200 OK'
             group by path order by views DESC) as subq
-            where path like '%' || slug || '%')
+            where path like '%' || slug || '%'
     ```
 - **requests** : Includes how many times a user try to access the site each day.
     ```

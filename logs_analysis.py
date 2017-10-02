@@ -12,8 +12,9 @@ DBNAME = "news"
 def popular_3_articles():
     """ Return the most popular three articles """
     statement="select title, views from populars limit 3;"
-    return fetch_data(statement)
-
+    print("\n1. What are the most popular three articles of all time? \n")
+    for title, view in fetch_data(statement):
+        print("-\"" + title + "\" -> " + str(view) + " views\n")
 
 def popular_article_authors():
     """ Return the most popular article authors """
@@ -22,7 +23,9 @@ def popular_article_authors():
                            where id = author
                            group by id
                            order by tviews DESC;"""
-    return fetch_data(statement)
+    print("\n2. Who are the most popular article authors of all time? \n")
+    for name, tview in fetch_data(statement):
+        print("-" + name + " -> " + str(tview) + " views\n")
 
 
 def lead_to_errors():
@@ -33,7 +36,9 @@ def lead_to_errors():
                            from requests,fails
                            where requests.day=fails.day) as result
                            where percent >= 1;"""
-    return fetch_data(statement)
+    print("\n3. On which days did more than 1% of requests lead to errors?\n")
+    for day, error in fetch_data(statement):
+        print("-" + str(day) + " -> " + str(error) + "% errors\n")
 
 
 def fetch_data(statement):
@@ -50,18 +55,8 @@ def fetch_data(statement):
         return []
 
 
-print("\n\tInternal Reporting Tool\n")
-# The most popular three articles
-print("\n1. What are the most popular three articles of all time? \n")
-for title, view in popular_3_articles():
-    print("-\"" + title + "\" -> " + str(view) + " views\n")
-
-# The most popular article authors
-print("\n2. Who are the most popular article authors of all time? \n")
-for name, tview in popular_article_authors():
-    print("-" + name + " -> " + str(tview) + " views\n")
-
-# Days where more than 1% of requests lead to errors
-print("\n3. On which days did more than 1% of requests lead to errors?\n")
-for day, error in lead_to_errors():
-    print("-" + str(day) + " -> " + str(error) + "% errors\n")
+if __name__ == "__main__":
+    print("\n\tInternal Reporting Tool\n")
+    popular_3_articles()
+    popular_article_authors()
+    lead_to_errors()
